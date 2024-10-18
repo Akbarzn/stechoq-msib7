@@ -9,7 +9,7 @@ const authorizeJWT = async (req, res, next) => {
 
     try {
         const decode = jwt.verify(token, process.env.JWT_SECRET);
-        req.userId = decode.userId; // Ensure userId is correctly assigned
+        req.userId = decode.userId; 
         next();
     } catch (error) {
         console.log(error);
