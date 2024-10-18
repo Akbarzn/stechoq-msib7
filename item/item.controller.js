@@ -1,8 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const { createItem,getItem,findItems,updateItems,deletItem } = require('./item.service')
+const adminAuthorization = require('../middleware/adminAuthorization')
+const authorizeJWT = require('../middleware/authorize.JWT')
 
-router.post('/',async(req,res,next)=>{
+
+router.post('/',adminAuthorization,async(req,res,next)=>{
     try{
         const newItemData = req.body
         const newItem = await createItem(newItemData)
@@ -12,7 +15,7 @@ router.post('/',async(req,res,next)=>{
     }
 })
 
-router.get('/',async(req,res,next)=>{
+router.get('/',authorizeJWT,async(req,res,next)=>{
     try{
         const itemData = req.body
         const getItems = await getItem(itemData)
@@ -22,7 +25,7 @@ router.get('/',async(req,res,next)=>{
     }
 })
 
-router.get('/:id',async(req,res,next)=>{
+router.get('/:id',authorizeJWT,async(req,res,next)=>{
     try{
         const itemId = parseInt(req.params.id)
         const getItemId = await findItems(itemId)
@@ -32,7 +35,7 @@ router.get('/:id',async(req,res,next)=>{
     }
 })
 
-router.put('/:id',async(req,res,next)=>{
+router.put('/:id',adminAuthorization,async(req,res,next)=>{
     try{
         const itemId = req.params.id
         const updateItemData = req.body
@@ -44,7 +47,7 @@ router.put('/:id',async(req,res,next)=>{
     }
 })
 
-router.delete('/:id',async(req,res,next)=>{
+router.delete('/:id',adminAuthorization,async(req,res,next)=>{
     try{
         const idItem = req.params.id
         const deletedItem = await deletItem(idItem)

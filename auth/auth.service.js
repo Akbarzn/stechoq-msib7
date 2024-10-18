@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const generateToken = async(user)=>{
     try{
         return jwt.sign({
-            idUser:user.id,
+            userId:user.id,
             username:user.username,
             email:user.email,
             role:user.role
@@ -19,12 +19,13 @@ const generateToken = async(user)=>{
 const register = async (username,email,password)=>{
     try{
         const hashedPassword = await bcrypt.hash(password,10)
+        console.log(hashedPassword)
         // field tabel
         const user = {
             username,
             email,
             password:hashedPassword,
-            // role:"USER"
+            role:"USER"
         }
         const newUser = await userRepository.createUser(user)
         return newUser

@@ -25,6 +25,7 @@ router.post('/login',async(req,res,next)=>{
             data:{
                 username:user.username,
                 email:user.email,
+                role:user.role,
                 token:token
             }
         })
